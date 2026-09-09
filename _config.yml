@@ -1,10 +1,12 @@
-title: FFbeast
-description: FFBeast documentation
+title: FFBeastier
+description: FFBeast documentation, plus the Beastier ODESC V4.2 wheel build
 theme: just-the-docs
 
-url: https://ffbeast.github.io
+url: https://thepicklebaron.github.io
+baseurl: ""  # set by the Pages workflow at build time
 
 aux_links:
+  Upstream FFBeast docs: https://ffbeast.github.io
   Discord channel: https://discord.gg/5ZKD46zQSU
 
 color_scheme: custom
@@ -27,3 +29,9 @@ callouts:
 
 plugins:
   - jekyll-redirect-from
+
+exclude:
+  - tools/
+  - README.md
+  - Gemfile
+  - Gemfile.lock

@@ -1,113 +1,65 @@
-# just-the-docs-template
+# FFBeastier
 
-This is a *bare-minimum* template to create a [Jekyll] site that:
+A fork of the [FFBeast documentation site](https://github.com/ffbeast/ffbeast.github.io) that tracks upstream
+and adds one concrete DIY direct-drive wheel build on top of it:
 
-- uses the [Just the Docs] theme;
-- can be built and published on [GitHub Pages];
-- can be built and previewed locally, and published on other platforms.
+- **ODESC V4.2 (56V)** single-axis controller
+- **38 mm, 6 mm shaft, 2500 PPR push-pull** optical encoder (10000 CPR)
+- 6.5 inch hoverboard motor
 
-More specifically, the created site:
+Everything upstream is kept intact, including the firmware downloads. The additions live in one place:
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem;
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages.
+| What                                         | Where                                                                                    |
+|----------------------------------------------|------------------------------------------------------------------------------------------|
+| Build guide: wiring, encoders, setup, tuning | `docs/en/wheel_beastier*.md`, shown as **FFBeast Wheel > Beastier build** on the site    |
+| Wiring diagram                               | `assets/images/beastier/wiring_odesc42_pushpull.svg`                                     |
+| Telemetry effects tool (Python)              | `tools/beastier-effects/`                                                                |
 
-To get started with creating a site, just click "[use this template]"!
+## Site
 
-After completing the creation of your new site on GitHub, update it as needed:
+Built with Jekyll and the Just the Docs theme through the GitHub Pages workflow in `.github/workflows/pages.yml`.
+The workflow passes the Pages base path automatically, so the site works at
+`https://thepicklebaron.github.io/ffbeastier.github.io/` without further configuration.
 
-## Replace the content of the template pages
+To publish, enable Pages once on the repository with source **GitHub Actions**:
 
-Update the following files to your own content:
+```bash
+gh api -X POST repos/ThePickleBaron/ffbeastier.github.io/pages -f build_type=workflow
+```
 
-- `index.md` (your new home page)
-- `README.md` (information for those who access your site repo on GitHub)
+Local preview needs Ruby and Bundler:
 
-## Changing the version of the theme and/or Jekyll
+```bash
+bundle install
+bundle exec jekyll serve
+```
 
-Simply edit the relevant line(s) in the `Gemfile`.
+## Keeping up with upstream
 
-## Adding a plugin
+The fork carries a handful of added files and three edited ones (`_config.yml`, `index.md`, `README.md`), so
+upstream merges are normally clean:
 
-The Just the Docs theme automatically includes the [`jekyll-seo-tag`] plugin.
+```bash
+git remote add upstream https://github.com/ffbeast/ffbeast.github.io.git
+git fetch upstream
+git merge upstream/main
+git push origin main
+```
 
-To add an extra plugin, you need to add it in the `Gemfile` *and* in `_config.yml`. For example, to add [`jekyll-default-layout`]:
+## Telemetry effects tool
 
-- Add the following to your site's `Gemfile`:
+`tools/beastier-effects` is a small Python program that adds road texture, kerbs, ABS, lock-up and understeer
+cues from Forza or Assetto Corsa telemetry using the wheel's documented USB API. See its
+[README](tools/beastier-effects/README.md) and the site page **Beastier build > Telemetry effects**.
 
-  ```ruby
-  gem "jekyll-default-layout"
-  ```
+```bash
+cd tools/beastier-effects
+python -m pip install -e ".[hid,dev]"
+python -m pytest
+python -m beastier_effects --source demo --dry-run
+```
 
-- And add the following to your site's `_config.yml`:
+## License
 
-  ```yaml
-  plugins:
-    - jekyll-default-layout
-  ```
-
-Note: If you are using a Jekyll version less than 3.5.0, use the `gems` key instead of `plugins`.
-
-## Publishing your site on GitHub Pages
-
-1.  If your created site is `YOUR-USERNAME/YOUR-SITE-NAME`, update `_config.yml` to:
-
-    ```yaml
-    title: YOUR TITLE
-    description: YOUR DESCRIPTION
-    theme: just-the-docs
-
-    url: https://YOUR-USERNAME.github.io/YOUR-SITE-NAME
-
-    aux_links: # remove if you don't want this link to appear on your pages
-      Template Repository: https://github.com/YOUR-USERNAME/YOUR-SITE-NAME
-    ```
-
-2.  Push your updated `_config.yml` to your site on GitHub.
-
-3.  In your newly created repo on GitHub:
-    - go to the `Settings` tab -> `Pages` -> `Build and deployment`, then select `Source`: `GitHub Actions`.
-    - if there were any failed Actions, go to the `Actions` tab and click on `Re-run jobs`.
-
-## Building and previewing your site locally
-
-Assuming [Jekyll] and [Bundler] are installed on your computer:
-
-1.  Change your working directory to the root directory of your site.
-
-2.  Run `bundle install`.
-
-3.  Run `bundle exec jekyll serve` to build your site and preview it at `localhost:4000`.
-
-    The built site is stored in the directory `_site`.
-
-## Publishing your built site on a different platform
-
-Just upload all the files in the directory `_site`.
-
-## Customization
-
-You're free to customize sites that you create with this template, however you like!
-
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
-
-## Licensing and Attribution
-
-This repository is licensed under the [MIT License]. You are generally free to reuse or extend upon this code as you see fit; just include the original copy of the license (which is preserved when you "make a template"). While it's not necessary, we'd love to hear from you if you do use this template, and how we can improve it for future use!
-
-The deployment GitHub Actions workflow is heavily based on GitHub's mixed-party [starter workflows]. A copy of their MIT License is available in [actions/starter-workflows].
-
-----
-
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
-
-[Jekyll]: https://jekyllrb.com
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[Bundler]: https://bundler.io
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
-[`jekyll-default-layout`]: https://github.com/benbalter/jekyll-default-layout
-[`jekyll-seo-tag`]: https://jekyll.github.io/jekyll-seo-tag
-[MIT License]: https://en.wikipedia.org/wiki/MIT_License
-[starter workflows]: https://github.com/actions/starter-workflows/blob/main/pages/jekyll.yml
-[actions/starter-workflows]: https://github.com/actions/starter-workflows/blob/main/LICENSE
+The site template is MIT licensed (see `LICENSE`). Upstream FFBeast content and firmware remain the property of
+their author under the terms on the site's **Terms of use** page. The telemetry tool in `tools/` is MIT.

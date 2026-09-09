@@ -9,6 +9,11 @@ nav_exclude: true
 
 ---
 
+{: .note }
+> **This is the FFBeastier fork.** It mirrors the upstream FFBeast documentation and adds a documented build with an
+> ODESC V4.2 controller and a 2500 PPR shaft encoder, plus an open-source telemetry effects tool.
+> Start at [**Beastier build**](docs/en/wheel_beastier.html). Upstream lives at [ffbeast.github.io](https://ffbeast.github.io).
+
 ## Welcome stranger! 
 
 The fact that you've landed here suggests you may have caught wind of the 

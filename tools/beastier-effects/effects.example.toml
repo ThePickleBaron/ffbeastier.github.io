@@ -1,0 +1,65 @@
+# Beastier Effects configuration.
+# Every value below is the built-in default. Copy this file, delete the keys you
+# do not want to change, and pass it with --config.
+
+total_gain = 0.5            # master scale for every periodic and constant force (0..1)
+max_total_drop = 0.7        # hard cap on ForceDrop so the game's FFB never disappears
+attack_s = 0.03             # envelope rise time
+release_s = 0.08            # envelope fall time
+rate_hz = 200.0             # USB update rate
+telemetry_timeout_s = 0.5   # treat the game as gone after this long without data
+
+[texture]                   # road surface buzz, frequency locked to wheel rotation
+enabled = true
+gain = 0.06
+bumps_per_rev = 6.0
+min_hz = 6.0
+max_hz = 60.0
+speed_floor_mps = 2.0
+surface_scale = 1.0         # multiplier on Forza SurfaceRumble
+fallback_fraction = 0.5     # fraction of gain used when the game has no surface data (Assetto)
+fallback_full_speed_mps = 30.0
+
+[rumble]                    # kerbs and rumble strips under the front wheels
+enabled = true
+gain = 0.35
+spacing_m = 0.12            # strip pitch; frequency = speed / spacing
+min_hz = 10.0
+max_hz = 80.0
+
+[abs]
+enabled = true
+gain = 0.25
+hz = 15.0
+force_drop = 0.15
+slip_ratio_threshold = -0.35   # used only when the game does not report ABS directly
+brake_threshold = 0.15
+
+[lockup]                    # front wheels locked under braking
+enabled = true
+slip_ratio_start = -0.5
+slip_ratio_full = -1.0
+max_drop = 0.5
+brake_threshold = 0.15
+
+[understeer]                # front tyres past their peak
+enabled = true
+slip_start = 0.85
+slip_full = 1.6
+max_drop = 0.45
+
+[engine]                    # very subtle vibration near idle and redline
+enabled = true
+gain = 0.02
+idle_band = 0.15
+redline_band = 0.10
+min_hz = 10.0
+max_hz = 70.0
+default_cylinders = 4
+
+[oversteer]                 # counter-steer nudge from rear slip. Verify the sign on your rig first.
+enabled = false
+gain = 0.2
+slip_start = 0.9
+slip_full = 1.8
+sign = 1                    # flip to -1 if the nudge pushes the wrong way
